@@ -3,13 +3,12 @@ import { Decimal } from "@prisma/client/runtime/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  
   try {
     const { searchParams } = new URL(req.url);
     const merchantId = searchParams.get("merchantId");
     const startDate = searchParams.get("startDate");
     const endDate = searchParams.get("endDate");
-  
+
     if (!merchantId) {
       return NextResponse.json(
         { error: "Merchant ID is required" },
@@ -41,7 +40,9 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    const totalRevenue = totalRevenueResult._sum.paymentAmount || new Decimal(0);
+    // Convert Decimal to Number and round
+    const totalRevenueDecimal = totalRevenueResult._sum.paymentAmount || new Decimal(0);
+    const totalRevenue = parseFloat(totalRevenueDecimal.toFixed(2)); // Round to 2 decimal places
 
     const totalExpensesResult = await prisma.expense.aggregate({
       where: expenseWhereClause,
@@ -50,16 +51,19 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    const totalExpenses =
-      totalExpensesResult._sum.expenseAmount || new Decimal(0);
+    const totalExpensesDecimal = totalExpensesResult._sum.expenseAmount || new Decimal(0);
+    const totalExpenses = parseFloat(totalExpensesDecimal.toFixed(2)); // Round to 2 decimal places
 
-    const netProfit = totalRevenue.minus(totalExpenses);
 
-    const totalCustomers = await prisma.payment.count({
+    const netProfitDecimal = totalRevenueDecimal.minus(totalExpensesDecimal);
+    const netProfit = parseFloat(netProfitDecimal.toFixed(2)); // Round to 2 decimal places
+
+    //Rounding off the number of customers instead of parsing
+    const totalCustomers = Math.round(await prisma.payment.count({
       where: {
         merchantId: merchantIdInt,
       },
-    });
+    }));
 
     return NextResponse.json({
       totalRevenue,
