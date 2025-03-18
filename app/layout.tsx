@@ -3,6 +3,7 @@ import "./globals.css";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { jura } from "@/fonts/jura";
 import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
 
 
 export const metadata: Metadata = {
@@ -21,6 +22,7 @@ export default function RootLayout({
         className={`${jura.className} antialiased`}
       >
         <MaxWidthWrapper>
+          <Navbar />
         {children}
         <Footer />
         </MaxWidthWrapper>

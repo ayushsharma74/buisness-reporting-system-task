@@ -121,46 +121,7 @@ export default function RevenueAnalysis({ data, summaryData }: MonthlyRevenuePro
     <div className="flex flex-col gap-3">
 
       {/* Month Range Filter */}
-      <div className="flex gap-4">
-          {/* Start Month Select */}
-        <div>
-            <label className="block text-sm font-medium text-gray-700">Start Month</label>
-            <Select onValueChange={(value) => {
-                const selectedOption = monthOptions.find(option => option.value === value) || null;
-                setStartMonth(selectedOption);
-            }}>
-                <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select start month" />
-                </SelectTrigger>
-                <SelectContent>
-                    {monthOptions.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                            {option.label}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
-        </div>
-        {/* End Month Select */}
-        <div>
-            <label className="block text-sm font-medium text-gray-700">End Month</label>
-            <Select onValueChange={(value) => {
-                const selectedOption = monthOptions.find(option => option.value === value) || null;
-                setEndMonth(selectedOption);
-            }}>
-                <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select end month" />
-                </SelectTrigger>
-                <SelectContent>
-                    {monthOptions.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                            {option.label}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
-        </div>
-      </div>
+
 
       {/* Revenue Trend Area Chart Card */}
       <Card>
