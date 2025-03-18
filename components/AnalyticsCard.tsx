@@ -10,7 +10,7 @@ import { LucideIcon } from "lucide-react";
 type AnalyticsCardProps = {
   title: string;
   icon: LucideIcon;
-  value: string;
+  value: string | number;
 }
 
 export default function AnalyticsCard( { title, icon: Icon, value }: AnalyticsCardProps) {

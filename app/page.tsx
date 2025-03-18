@@ -119,7 +119,7 @@ export default function Home() {
   });
 
   //Recalculate summary data based on filtered data
-  const recalculatedSummaryData: SummaryData | null =
+  const recalculatedSummaryData: any =
   filteredMonthlyData.length > 0
   ? {
       totalRevenue: filteredMonthlyData.reduce(

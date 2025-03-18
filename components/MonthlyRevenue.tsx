@@ -22,6 +22,7 @@ import {
 interface MonthlyRevenueData {
     month: string;
     revenue: number;
+    year: string
 }
 
 interface MonthlyRevenueProps {

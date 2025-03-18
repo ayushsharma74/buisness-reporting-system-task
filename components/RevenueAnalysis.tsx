@@ -41,6 +41,7 @@ export interface SummaryData {
   netProfit: number;
   totalExpenses: number;
   totalPayment: number;
+  totalCustomers: string | number;
 }
 
 interface MonthlyRevenueProps {
