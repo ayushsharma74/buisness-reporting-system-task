@@ -1,4 +1,3 @@
-// components/RevenueAnalysis.tsx
 "use client";
 
 import { TrendingUp } from "lucide-react";
@@ -56,7 +55,6 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-// Helper type for select options
 interface SelectOption {
   value: string;
   label: string;
@@ -64,19 +62,16 @@ interface SelectOption {
 
 export default function RevenueAnalysis({ data, summaryData }: MonthlyRevenueProps) {
 
-  // Generate month options from data
   const monthOptions: SelectOption[] = data.map(item => ({
-    value: `${item.month}-${item.year}`,  // Use month-year as value
+    value: `${item.month}-${item.year}`,  
     label: `${item.month} ${item.year}`,
   }));
 
-  // State for selected month range
   const [startMonth, setStartMonth] = useState<SelectOption | null>(null);
   const [endMonth, setEndMonth] = useState<SelectOption | null>(null);
 
-  // Filter data based on selected month range
   const filteredData = data.filter(item => {
-    if (!startMonth || !endMonth) return true;  // Show all if no filter
+    if (!startMonth || !endMonth) return true;  
 
     const itemMoment = moment(`${item.month} ${item.year}`, 'MMM YYYY');
     const startMoment = moment(startMonth.value, 'MMM-YYYY');

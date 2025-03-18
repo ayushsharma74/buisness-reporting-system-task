@@ -8,7 +8,7 @@ import MonthlyRevenue from "@/components/MonthlyRevenue";
 import RevenueAnalysis, {
   MonthlyRevenueData,
   SummaryData,
-} from "@/components/RevenueAnalysis"; // Ensure correct import
+} from "@/components/RevenueAnalysis"; 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   IndianRupee,
@@ -25,7 +25,6 @@ import {
 } from "@/components/ui/select";
 import moment from "moment";
 
-// Helper type for select options
 interface SelectOption {
   value: string;
   label: string;
@@ -60,7 +59,6 @@ export default function Home() {
           params.append("endDate", format(endDate, "yyyy-MM-dd"));
         }
 
-        // Fetch monthly growth data
         const res = await fetch(
           `${
             process.env.NEXT_PUBLIC_API_URL || ""
@@ -73,16 +71,14 @@ export default function Home() {
         const monthlyData = await res.json();
         setMonthlyData(monthlyData);
 
-        // Generate month options from data after fetching
         const generatedMonthOptions: SelectOption[] = monthlyData.map(
           (item) => ({
-            value: `${item.month}-${item.year}`, // Use month-year as value
+            value: `${item.month}-${item.year}`, 
             label: `${item.month} ${item.year}`,
           })
         );
         setMonthOptions(generatedMonthOptions);
 
-        // Fetch summary data
         const res1 = await fetch(
           `${
             process.env.NEXT_PUBLIC_API_URL || ""
@@ -104,9 +100,8 @@ export default function Home() {
     fetchData();
   }, [startDate, endDate]);
 
-  // Filter data based on selected month range
   const filteredMonthlyData = monthlyData.filter((item) => {
-    if (!startMonth || !endMonth) return true; // Show all if no filter
+    if (!startMonth || !endMonth) return true; 
 
     const itemMoment = moment(`${item.month} ${item.year}`, "MMM YYYY");
     const startMoment = moment(startMonth.value, "MMM-YYYY");
@@ -118,7 +113,6 @@ export default function Home() {
     );
   });
 
-  //Recalculate summary data based on filtered data
   const recalculatedSummaryData: any =
   filteredMonthlyData.length > 0
   ? {
@@ -126,11 +120,11 @@ export default function Home() {
           (sum, item) => sum + item.revenue,
           0
       ),
-      netProfit: summaryData?.netProfit || 0,  // Use initial netProfit (assuming it's not time-dependent)
-      totalExpenses: summaryData?.totalExpenses || 0, // Use initial totalExpenses
-      totalPayment: summaryData?.totalCustomers || 0,  // Use initial totalCustomers
+      netProfit: summaryData?.netProfit || 0,  
+      totalExpenses: summaryData?.totalExpenses || 0, 
+      totalPayment: summaryData?.totalCustomers || 0, 
   }
-  : summaryData; // If no data in range, use initial summaryData
+  : summaryData;
 
   return (
     <main className="flex flex-col gap-3 py-3">
