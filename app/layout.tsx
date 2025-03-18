@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { jura } from "@/fonts/jura";
+import Footer from "@/components/Footer";
 
 
 export const metadata: Metadata = {
@@ -21,6 +22,7 @@ export default function RootLayout({
       >
         <MaxWidthWrapper>
         {children}
+        <Footer />
         </MaxWidthWrapper>
       </body>
     </html>
