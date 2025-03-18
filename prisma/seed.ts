@@ -13,7 +13,7 @@ async function seed() {
 
     // 2. Create some Customers
     const numCustomers = 3;
-    const customers = [];
+    const customers: any = [];
     for (let i = 0; i < numCustomers; i++) {
       const customer = await prisma.customer.create({
         data: {
