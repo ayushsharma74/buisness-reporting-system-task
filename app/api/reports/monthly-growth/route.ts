@@ -1,7 +1,7 @@
+import { prisma } from "@/db/prisma";
 import { Decimal } from "@prisma/client/runtime/library.js";
 import { NextRequest, NextResponse } from "next/server";
 import moment from "moment";
-import { prisma } from "@/db/prisma";
 
 export async function GET(req: NextRequest) {
   try {
@@ -14,7 +14,15 @@ export async function GET(req: NextRequest) {
         { status: 400 }
       );
     }
-    const merchantIdInt = parseInt(merchantId as string, 10);
+
+    const merchantIdInt = parseInt(merchantId, 10);
+
+    if (isNaN(merchantIdInt)) {
+      return NextResponse.json(
+        { error: "Invalid Merchant ID" },
+        { status: 400 }
+      );
+    }
 
     const monthlyData = [];
     for (let i = 5; i >= 0; i--) {
@@ -22,7 +30,9 @@ export async function GET(req: NextRequest) {
         .subtract(i, "months")
         .startOf("month")
         .toDate();
-      const monthEnd = moment().subtract(i, "months").endOf("month").toDate();
+      const monthEnd = moment().subtract(i, "months")
+        .endOf("month")
+        .toDate();
 
       const revenueResult = await prisma.payment.aggregate({
         where: {
@@ -41,6 +51,7 @@ export async function GET(req: NextRequest) {
 
       monthlyData.push({
         month: moment(monthStart).format("MMM"),
+        year: moment(monthStart).format("YYYY"), // Add the year
         revenue: revenue.toNumber(),
       });
     }
@@ -53,6 +64,10 @@ export async function GET(req: NextRequest) {
       { status: 500 }
     );
   } finally {
-    await prisma.$disconnect();
+    try {
+      await prisma.$disconnect();
+    } catch (disconnectError) {
+      console.error("Error disconnecting from Prisma:", disconnectError);
+    }
   }
 }

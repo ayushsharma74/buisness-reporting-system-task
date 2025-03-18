@@ -42,12 +42,14 @@ export default function MonthlyRevenue({ data }: MonthlyRevenueProps) {
     // }
     const firstMonth = data.length > 0 ? data[0].month : 'N/A';
     const lastMonth = data.length > 0 ? data[data.length - 1].month : 'N/A';
+    const firstYear = data.length > 0 ? data[0].year : 'N/A';
+    const lastYear = data.length > 0 ? data[data.length - 1].year : 'N/A';
 
     return (
         <Card>
             <CardHeader>
                 <CardTitle>Monthly Revenue</CardTitle>
-                <CardDescription>{firstMonth} - {lastMonth}</CardDescription>
+                <CardDescription>{firstMonth} {firstYear} - {lastMonth} {lastYear}</CardDescription>
             </CardHeader>
             <CardContent>
                 <ChartContainer config={chartConfig}>
