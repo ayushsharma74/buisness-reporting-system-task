@@ -268,7 +268,7 @@ export default function RevenueAnalysis({ data, summaryData }: MonthlyRevenuePro
                 Profit Margin: {formatPercentage(profitMargin)}
               </h3>
             </div>
-            <div className="grid grid-cols-3 w-full gap-4 mb-4">
+            <div className="flex gap-4 flex-col md:flex-row lg:flex-row">
               <div className="flex flex-col items-center">
                 <div className="text-sm font-medium text-muted-foreground">
                   Revenue
@@ -294,7 +294,7 @@ export default function RevenueAnalysis({ data, summaryData }: MonthlyRevenuePro
                 </div>
               </div>
             </div>
-            <div className="w-full h-8 bg-gray-200 rounded-full overflow-hidden">
+            <div className="w-full h-8 mt-4 bg-gray-200 rounded-full overflow-hidden">
               <div
                 className="h-full bg-primary"
                 style={{
