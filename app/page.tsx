@@ -9,7 +9,7 @@ import RevenueAnalysis, {
   SummaryData,
 } from "@/components/RevenueAnalysis";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { IndianRupee, ChartLine, CreditCard, Users } from "lucide-react";
+import { ChartLine, CreditCard, Users ,DollarSign } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -231,7 +231,7 @@ export default function Home() {
             value={
               "$" + (recalculatedSummaryData?.totalRevenue || 0).toFixed(2)
             }
-            icon={IndianRupee}
+            icon={DollarSign}
             title="Total Revenue"
           />
           <AnalyticsCard
