@@ -1,10 +1,11 @@
+// app/page.tsx
 "use client";
 
 import RevenueAnalysis, {
   MonthlyRevenueData,
   SummaryData,
 } from "@/components/RevenueAnalysis";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   Select,
   SelectContent,
@@ -73,6 +74,37 @@ export default function RevenueAnalysisComponent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Removed params because that is not needed.
 
+  const getDisabledMonthsForEnd = useCallback((): Set<string> => {
+    const disabledMonths = new Set<string>();
+    if (startMonth) {
+      const startMoment = moment(startMonth.value, "MMM-YYYY");
+      monthOptions.forEach((option) => {
+        const optionMoment = moment(option.value, "MMM-YYYY");
+        if (optionMoment.isBefore(startMoment)) {
+          disabledMonths.add(option.value);
+        }
+      });
+    }
+    return disabledMonths;
+  }, [startMonth, monthOptions]);
+
+  const getDisabledMonthsForStart = useCallback((): Set<string> => {
+    const disabledMonths = new Set<string>();
+    if (endMonth) {
+      const endMoment = moment(endMonth.value, "MMM-YYYY");
+      monthOptions.forEach((option) => {
+        const optionMoment = moment(option.value, "MMM-YYYY");
+        if (optionMoment.isAfter(endMoment)) {
+          disabledMonths.add(option.value);
+        }
+      });
+    }
+    return disabledMonths;
+  }, [endMonth, monthOptions]);
+
+  const disabledEndMonths = getDisabledMonthsForEnd();
+  const disabledStartMonths = getDisabledMonthsForStart();
+
   const filteredMonthlyData = monthlyData.filter((item) => {
     if (!startMonth || !endMonth) return true;
 
@@ -101,14 +133,17 @@ export default function RevenueAnalysisComponent() {
               setStartMonth(selectedOption);
             }}
             value={startMonth?.value || ""}
-            disabled
           >
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select start month" />
             </SelectTrigger>
             <SelectContent>
               {monthOptions.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
+                <SelectItem
+                  key={option.value}
+                  value={option.value}
+                  disabled={disabledStartMonths.has(option.value)}
+                >
                   {option.label}
                 </SelectItem>
               ))}
@@ -126,13 +161,18 @@ export default function RevenueAnalysisComponent() {
                 monthOptions.find((option) => option.value === value) || null;
               setEndMonth(selectedOption);
             }}
+            value={endMonth?.value || ""}
           >
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select end month" />
             </SelectTrigger>
             <SelectContent>
               {monthOptions.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
+                <SelectItem
+                  key={option.value}
+                  value={option.value}
+                  disabled={disabledEndMonths.has(option.value)}
+                >
                   {option.label}
                 </SelectItem>
               ))}

@@ -1,4 +1,3 @@
-// app/page.tsx
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
@@ -94,7 +93,7 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  }, [startDate, endDate, startMonth]); // Removed startMonth from dependency array
+  }, [startDate, endDate, startMonth]);
 
   useEffect(() => {
     fetchData();
@@ -132,6 +131,38 @@ export default function Home() {
           totalPayment: 0,
         };
 
+  const getDisabledMonthsForEnd = useCallback((): Set<string> => {
+    const disabledMonths = new Set<string>();
+    if (startMonth) {
+      const startMoment = moment(startMonth.value, "MMM-YYYY");
+      monthOptions.forEach((option) => {
+        const optionMoment = moment(option.value, "MMM-YYYY");
+        if (optionMoment.isBefore(startMoment)) {
+          disabledMonths.add(option.value);
+        }
+      });
+    }
+    return disabledMonths;
+  }, [startMonth, monthOptions]);
+
+  const getDisabledMonthsForStart = useCallback((): Set<string> => {
+    const disabledMonths = new Set<string>();
+    if (endMonth) {
+      const endMoment = moment(endMonth.value, "MMM-YYYY");
+      monthOptions.forEach((option) => {
+        const optionMoment = moment(option.value, "MMM-YYYY");
+        if (optionMoment.isAfter(endMoment)) {
+          disabledMonths.add(option.value);
+        }
+      });
+    }
+    return disabledMonths;
+  }, [endMonth, monthOptions]);
+
+
+  const disabledEndMonths = getDisabledMonthsForEnd();
+  const disabledStartMonths = getDisabledMonthsForStart();
+
   return (
     <main className="flex flex-col gap-3 py-3">
       <>
@@ -148,14 +179,17 @@ export default function Home() {
                 setStartMonth(selectedOption);
               }}
               value={startMonth?.value || ""}
-              disabled
             >
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select start month" />
               </SelectTrigger>
               <SelectContent>
                 {monthOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
+                  <SelectItem
+                    key={option.value}
+                    value={option.value}
+                    disabled={disabledStartMonths.has(option.value)}
+                  >
                     {option.label}
                   </SelectItem>
                 ))}
@@ -173,13 +207,18 @@ export default function Home() {
                   monthOptions.find((option) => option.value === value) || null;
                 setEndMonth(selectedOption);
               }}
+              value={endMonth?.value || ""}
             >
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select end month" />
               </SelectTrigger>
               <SelectContent>
                 {monthOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
+                  <SelectItem
+                    key={option.value}
+                    value={option.value}
+                    disabled={disabledEndMonths.has(option.value)}
+                  >
                     {option.label}
                   </SelectItem>
                 ))}
