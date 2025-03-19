@@ -120,9 +120,9 @@ export default function RevenueAnalysisComponent() {
 
   return (
     <>
-      <div className="flex gap-4 my-5">
+      <div className="flex flex-wrap gap-4 my-5">
         {/* Start Month Select */}
-        <div>
+        <div className="w-full sm:w-auto">
           <label className="block text-sm font-medium text-gray-700">
             Start Month
           </label>
@@ -134,7 +134,7 @@ export default function RevenueAnalysisComponent() {
             }}
             value={startMonth?.value || ""}
           >
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-full sm:w-[180px]">
               <SelectValue placeholder="Select start month" />
             </SelectTrigger>
             <SelectContent>
@@ -151,7 +151,7 @@ export default function RevenueAnalysisComponent() {
           </Select>
         </div>
         {/* End Month Select */}
-        <div>
+        <div className="w-full sm:w-auto">
           <label className="block text-sm font-medium text-gray-700">
             End Month
           </label>
@@ -163,7 +163,7 @@ export default function RevenueAnalysisComponent() {
             }}
             value={endMonth?.value || ""}
           >
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-full sm:w-[180px]">
               <SelectValue placeholder="Select end month" />
             </SelectTrigger>
             <SelectContent>

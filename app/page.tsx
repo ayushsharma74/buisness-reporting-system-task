@@ -166,9 +166,9 @@ export default function Home() {
   return (
     <main className="flex flex-col gap-3 py-3">
       <>
-        <div className="flex gap-4">
+        <div className="flex flex-wrap gap-4">
           {/* Start Month Select */}
-          <div>
+          <div className="w-full sm:w-auto">
             <label className="block text-sm font-medium text-gray-700">
               Start Month
             </label>
@@ -180,7 +180,7 @@ export default function Home() {
               }}
               value={startMonth?.value || ""}
             >
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-full sm:w-[180px]">
                 <SelectValue placeholder="Select start month" />
               </SelectTrigger>
               <SelectContent>
@@ -197,7 +197,7 @@ export default function Home() {
             </Select>
           </div>
           {/* End Month Select */}
-          <div>
+          <div className="w-full sm:w-auto">
             <label className="block text-sm font-medium text-gray-700">
               End Month
             </label>
@@ -209,7 +209,7 @@ export default function Home() {
               }}
               value={endMonth?.value || ""}
             >
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-full sm:w-[180px]">
                 <SelectValue placeholder="Select end month" />
               </SelectTrigger>
               <SelectContent>
